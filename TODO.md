@@ -1,0 +1,6 @@
+- [ ] Pouvoir changer la couleur de fond par couleur unies, un dégradé ou une image
+- [ ] Fix crop problem
+- [ ] Pourvoir ajouter des assets
+- [ ] Refactor
+- [ ] Pouvoir choisir le modèle
+- [ ] Pouvoir envoyer vidéo source 
