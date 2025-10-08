@@ -34,14 +34,18 @@
       <template v-for="(panel, idx) in panelsOuverts" :key="panel.key">
         <component
           :is="panel.component"
-          class="absolute top-16 z-50 max-w-sm w-full"
+          class="absolute top-5 z-50 max-w-sm w-full"
           :class="idx === 0 ? 'right-4' : 'left-4'"
-          style="max-height: calc(100vh - 8rem); overflow: auto"
+          style="max-height: calc(100vh - 5rem); overflow: auto"
         />
       </template>
 
-      <div class="absolute bottom-3 right-3 z-40">
+      <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-40">
         <TheMenu />
+      </div>
+
+      <div class="absolute bottom-3 right-3 z-40">
+        <ThemeSwitcher />
       </div>
     </div>
   </div>
@@ -73,6 +77,7 @@ import { useTheme } from '@/composables/useTheme.js'
 import TheBackgroundSettingsPanel from '@/components/TheBackgroundSettingsPanel.vue'
 import TheMenu from '@/components/TheMenu.vue'
 import WelcomeDialog from '@/components/WelcomeDialog.vue'
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 
 globalSettings.container = useTemplateRef('container')
 
