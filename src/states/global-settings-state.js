@@ -5,6 +5,7 @@ const globalSettings = {
   camera: null,
   container: null,
   videoEl: null,
+  phone: null,
 }
 
 export { globalSettings }

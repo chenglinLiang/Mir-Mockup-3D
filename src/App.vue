@@ -78,6 +78,24 @@ import TheBackgroundSettingsPanel from '@/components/TheBackgroundSettingsPanel.
 import TheMenu from '@/components/TheMenu.vue'
 import WelcomeDialog from '@/components/WelcomeDialog.vue'
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
+import TheMediaSettingsPanel from '@/components/TheMediaSettingsPanel.vue'
+import { useMedia } from '@/composables/useMedia.js'
+
+const { init: initLightingAmbient } = useLightingAmbient()
+const { init: initLightingDirectional } = useLightingDirectional()
+const { init: initLightingPoint } = useLightingPoint()
+const { init: initLightingSpot } = useLightingSpot()
+const { init: initBackground } = useBackground()
+const { init: initSource } = useMedia()
+
+useCropDimensions()
+useCameraPosition()
+useCameraFOV()
+useCameraControls()
+
+const { init: initTheme } = useTheme()
+
+onMounted(initTheme)
 
 globalSettings.container = useTemplateRef('container')
 
@@ -104,25 +122,6 @@ onMounted(() => {
 })
 
 let rafId = 0
-let videoTex
-
-function makeVideoTexture(src) {
-  // Crée la balise vidéo en mémoire (nécessaire pour autoplay mobile)
-  const v = document.createElement('video')
-  v.src = src
-  v.muted = true // autoplay policy
-  v.loop = true
-  v.playsInline = true // iOS
-  v.crossOrigin = 'anonymous'
-  // IMPORTANT : on ne lance play() qu’après un geste utilisateur (voir below)
-  const tex = new THREE.VideoTexture(v)
-  tex.colorSpace = THREE.SRGBColorSpace
-  tex.minFilter = THREE.LinearFilter
-  tex.magFilter = THREE.LinearFilter
-  tex.encoding = THREE.sRGBEncoding // compat anciennes dts
-  tex.generateMipmaps = false
-  return { v, tex }
-}
 
 async function init() {
   if (!globalSettings.container.value) return
@@ -173,11 +172,6 @@ async function init() {
   // Configuration initiale des lumières
   initializeLights()
 
-  // Vidéo texture
-  const { v, tex } = makeVideoTexture('/video/demo.mp4')
-  globalSettings.videoEl = v
-  videoTex = tex
-
   // Modèle iPhone (GLB)
   const gltf = await new GLTFLoader().loadAsync('/models/iphone.glb')
   const phone = gltf.scene
@@ -192,27 +186,9 @@ async function init() {
     }
   })
 
-  const screen = phone.getObjectByName('Screen')
+  globalSettings.phone = phone
 
-  if (screen) {
-    const screenMat = new THREE.MeshPhysicalMaterial({
-      color: 0x000000,
-      emissive: 0xffffff,
-      emissiveMap: videoTex,
-      emissiveIntensity: 1.0,
-      metalness: 0.0,
-      roughness: 0.9,
-      transmission: 0.0,
-      clearcoat: 0.0,
-    })
-    screen.material = screenMat
-  } else {
-    const screenGeo = new THREE.PlaneGeometry(0.62, 1.34) // ratio ~ iPhone
-    const screenMat = new THREE.MeshBasicMaterial({ map: videoTex, toneMapped: false })
-    const screenPlane = new THREE.Mesh(screenGeo, screenMat)
-    screenPlane.position.set(0, 0.1, 0.03) // colle au dessus
-    phone.add(screenPlane)
-  }
+  initSource()
 
   // Échelle/position du téléphone
   phone.scale.set(0.9, 0.9, 0.9)
@@ -244,6 +220,16 @@ async function init() {
   window.addEventListener('resize', onResize)
 }
 
+function initializeLights() {
+  if (!globalSettings.scene) return
+
+  initLightingAmbient()
+  initLightingDirectional()
+  initLightingPoint()
+  initLightingSpot()
+  initBackground()
+}
+
 onMounted(init)
 
 onBeforeUnmount(() => {
@@ -257,40 +243,17 @@ onBeforeUnmount(() => {
   globalSettings.renderer?.dispose()
 })
 
-const { init: initLightingAmbient } = useLightingAmbient()
-const { init: initLightingDirectional } = useLightingDirectional()
-const { init: initLightingPoint } = useLightingPoint()
-const { init: initLightingSpot } = useLightingSpot()
-const { init: initBackground } = useBackground()
-
-useCropDimensions()
-useCameraPosition()
-useCameraFOV()
-useCameraControls()
-const { init: initTheme } = useTheme()
-
-onMounted(initTheme)
-
 // Liste des panels et leur composant
 const panelsList = [
   { key: 'camera', component: TheCameraSettingsPanel },
   { key: 'lighting', component: TheLightingSettingsPanel },
   { key: 'crop', component: TheCropSettingsPanel },
   { key: 'background', component: TheBackgroundSettingsPanel },
+  { key: 'media', component: TheMediaSettingsPanel },
 ]
 
 // Panels ouverts
 const panelsOuverts = computed(() => {
   return panelsList.filter((p) => panelSettings[p.key])
 })
-
-function initializeLights() {
-  if (!globalSettings.scene) return
-
-  initLightingAmbient()
-  initLightingDirectional()
-  initLightingPoint()
-  initLightingSpot()
-  initBackground()
-}
 </script>

@@ -5,6 +5,7 @@ const panelSettings = reactive({
   camera: false,
   crop: false,
   background: false,
+  media: true,
 })
 
 export { panelSettings }
