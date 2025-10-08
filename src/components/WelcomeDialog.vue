@@ -18,6 +18,9 @@
         <div class="alert alert-info mb-2">
           <p>Certaines options comme le <strong>crop</strong> sont assujetties à des erreurs</p>
         </div>
+        <div class="alert alert-info mb-2">
+          <p>Vous ne pouvez qu'ouvrir que 2 panels à la fois</p>
+        </div>
         <div class="alert alert-info">
           <p>Actuellement un seul modèle est disponible: <strong>iPhone</strong></p>
         </div>

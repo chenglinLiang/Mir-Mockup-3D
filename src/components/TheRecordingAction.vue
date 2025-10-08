@@ -77,6 +77,13 @@ function stopRecording() {
     if (recordingStream) {
       recordingStream.getTracks().forEach((track) => track.stop())
     }
+
+    // Reset video
+    if (globalSettings.videoEl) {
+      globalSettings.videoEl.pause()
+      globalSettings.videoEl.currentTime = 0
+      videoLaunched.value = false
+    }
   }
 }
 
