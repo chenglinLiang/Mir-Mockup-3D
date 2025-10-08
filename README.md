@@ -19,7 +19,7 @@ complète, seulement de petits bouts.
 
 J'ai donc décidé de construire mon propre outil.
 
-## Features
+## Fonctionnalités
 
 - Mockup 3D HD
 - Incrustation vidéo
@@ -33,3 +33,7 @@ J'ai donc décidé de construire mon propre outil.
 - [ ] Ajouts modèles 3D
 - [ ] Redimensionnage modèle
 - [ ] Amélioration vidéo avec IA (auto fit)
+
+## Note
+
+L'application n'est pas prévu pour petits écrans
