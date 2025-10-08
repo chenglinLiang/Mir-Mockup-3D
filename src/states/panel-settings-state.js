@@ -4,7 +4,7 @@ const panelSettings = reactive({
   lighting: false,
   camera: false,
   crop: false,
-  background: false,
+  background: true,
   media: true,
 })
 

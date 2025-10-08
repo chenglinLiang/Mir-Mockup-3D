@@ -1,15 +1,19 @@
 <template>
   <div v-if="model">
-    <div class="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div class="card bg-base-100 rounded-lg shadow-lg p-6 max-w-[700px] w-full">
+    <div class="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-80">
+      <div class="card bg-base-100 rounded-lg shadow-lg p-6 max-w-[780px] w-full">
         <h2 class="text-2xl font-bold mb-4">Bienvenue !</h2>
         <p class="mb-4">
           Merci d'utiliser notre application. Voici quelques conseils pour bien commencer :
         </p>
-        <ul class="text-left mb-4 list-disc list-inside">
+        <ul class="mb-4 list-disc list-inside">
           <li>Utilisez les paramètres de caméra pour ajuster la vue.</li>
           <li>Configurez l'éclairage pour mettre en valeur votre modèle.</li>
           <li>Personnalisez l'arrière-plan avec une couleur ou une image.</li>
+          <li>
+            L'option <strong>"Fond > Luminosité"</strong> change vraiment le design de mockup, je
+            vous conseille de jouer avec celui-ci
+          </li>
           <li>Utilisez les options de recadrage pour obtenir le rendu souhaité.</li>
           <li>Utiliser un ordinateur, le site n’a pas été prévu pour les petits écrans</li>
         </ul>

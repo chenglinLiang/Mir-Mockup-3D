@@ -79,7 +79,7 @@
             min="0.1"
             max="2"
             step="0.1"
-            label="Fond:"
+            label="Luminosité (apporte un vrai plus au rendu):"
             :optional="backgroundSettings.backgroundBrightness.toFixed(1)"
           />
         </div>
