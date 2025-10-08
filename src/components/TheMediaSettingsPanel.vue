@@ -47,6 +47,7 @@
           @change="onVideoSelected"
         />
       </label>
+      <small>Format recommendé: 1080x2400</small>
     </div>
   </aside>
 </template>

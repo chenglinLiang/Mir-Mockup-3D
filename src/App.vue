@@ -109,14 +109,27 @@ watch(
   () => dialog.welcome.show,
   (newVal) => {
     if (newVal) {
-      localStorage.setItem('welcomeDialogShown', newVal ? 'true' : 'false')
+      localStorage.setItem(
+        'welcomeDialogShown',
+        JSON.stringify({
+          done: newVal,
+          date: new Date().toISOString(),
+        }),
+      )
     }
   },
 )
 
 onMounted(() => {
   const shown = localStorage.getItem('welcomeDialogShown')
-  if (shown !== 'true') {
+  if (!shown) {
+    dialog.welcome.show = true
+    return
+  }
+
+  const data = JSON.parse(shown)
+
+  if (!data.done) {
     dialog.welcome.show = true
   }
 })
