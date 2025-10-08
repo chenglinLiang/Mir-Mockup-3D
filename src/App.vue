@@ -1,5 +1,6 @@
 <template>
   <div style="width: 100vw; height: 100vh">
+    <WelcomeDialog v-model="dialog.welcome.show" />
     <div ref="container" style="width: 100%; height: 100%; position: relative; overflow: hidden">
       <div class="absolute bottom-3 left-3 z-10">
         <TheRecordingAction />
@@ -39,7 +40,7 @@
         />
       </template>
 
-      <div class="absolute bottom-3 right-3">
+      <div class="absolute bottom-3 right-3 z-40">
         <TheMenu />
       </div>
     </div>
@@ -47,7 +48,7 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, useTemplateRef, computed } from 'vue'
+import { onMounted, onBeforeUnmount, useTemplateRef, computed, reactive, watch } from 'vue'
 import * as THREE from 'three'
 import { GLTFLoader, OrbitControls } from 'three-stdlib'
 
@@ -71,8 +72,31 @@ import TheCropSettingsPanel from '@/components/TheCropSettingsPanel.vue'
 import { useTheme } from '@/composables/useTheme.js'
 import TheBackgroundSettingsPanel from '@/components/TheBackgroundSettingsPanel.vue'
 import TheMenu from '@/components/TheMenu.vue'
+import WelcomeDialog from '@/components/WelcomeDialog.vue'
 
 globalSettings.container = useTemplateRef('container')
+
+const dialog = reactive({
+  welcome: {
+    show: false,
+  },
+})
+
+watch(
+  () => dialog.welcome.show,
+  (newVal) => {
+    if (newVal) {
+      localStorage.setItem('welcomeDialogShown', newVal ? 'true' : 'false')
+    }
+  },
+)
+
+onMounted(() => {
+  const shown = localStorage.getItem('welcomeDialogShown')
+  if (shown !== 'true') {
+    dialog.welcome.show = true
+  }
+})
 
 let rafId = 0
 let videoTex
