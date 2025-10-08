@@ -1,35 +1,35 @@
-# mockup-3d
+# Mir - Mockup 3D
 
-This template should help get you started developing with Vue 3 in Vite.
+Mir une application Vue JS uniquement côté client pour faire des vidéos mockup 3D à partir d'un modèle, ici avec un
+modèle d'iPhone.
 
-## Recommended IDE Setup
+Vous pouvez incruster une vidéo à l'intérieur puis calibrer diverses options pour obtenir le rendu espéré.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Enfin vous pouvez en faire une vidéo qui peut servir d’outil marketing pour vos projets.
 
-## Customize configuration
+Accéder au projet [ici](https://mir.julien-dacosta.dev/)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+<img src="/resources/images/preview.png">
 
-## Project Setup
+## Motivation
 
-```sh
-npm install
-```
+J'avais besoin d'un outil de mockup 3D pour le marketing d'une de mes applications. Je suis tombé
+sur https://contentcore.xyz/, mais j'ai rencontré des problèmes lors du rendu vidéo: impossible d'obtenir une vidéo
+complète, seulement de petits bouts.
 
-### Compile and Hot-Reload for Development
+J'ai donc décidé de construire mon propre outil.
 
-```sh
-npm run dev
-```
+## Features
 
-### Compile and Minify for Production
+- Mockup 3D HD
+- Incrustation vidéo
+- Fond, lumière, position de la caméra et croppage paramètrable
+- Enregistrement vidéo avec vidéo incrustrer
+- Effet rotation automatique
 
-```sh
-npm run build
-```
+## TODO
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- [ ] Incustration image seulement
+- [ ] Ajouts modèles 3D
+- [ ] Redimensionnage modèle
+- [ ] Amélioration vidéo avec IA (auto fit)
