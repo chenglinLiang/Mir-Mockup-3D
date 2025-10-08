@@ -7,7 +7,16 @@
       class="checkbox checkbox-xs checkbox-primary"
       @change="emit('change')"
     />
-    <span class="text-xs">{{ label }}</span>
+    <span
+      :class="{
+        'text-xs': textSize === 'xs',
+        'text-sm': textSize === 'sm',
+        'text-md': textSize === 'md',
+        'text-lg': textSize === 'lg',
+        'text-xl': textSize === 'xl',
+      }"
+      >{{ label }}</span
+    >
   </label>
 </template>
 
@@ -20,6 +29,10 @@ const model = defineModel({
 defineProps({
   label: {
     type: String,
+  },
+  textSize: {
+    type: String,
+    default: 'xs',
   },
 })
 

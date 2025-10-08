@@ -4,11 +4,16 @@
       <section>
         <h4>Crop d'enregistrement</h4>
 
-        <AppCheckbox v-model="cropSettings.enabled" label="Activer le crop" />
+        <AppCheckbox
+          v-model="cropSettings.enabled"
+          label="Activer le crop"
+          class="mt-5"
+          text-size="lg"
+        />
       </section>
       <div class="divider"></div>
 
-      <section>
+      <section :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }">
         <h4>Presets</h4>
         <div class="grid grid-cols-2 gap-2">
           <button
@@ -23,7 +28,7 @@
       </section>
       <div class="divider"></div>
 
-      <section>
+      <section :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }">
         <h4>Dimensions</h4>
         <div class="flex flex-col gap-1">
           <div class="grid grid-cols-[60px_1fr] gap-2 items-center mb-1">
@@ -61,7 +66,7 @@
       </section>
       <div class="divider"></div>
 
-      <section>
+      <section :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }">
         <h4>Position</h4>
         <div class="flex flex-col gap-1">
           <AppSlider
@@ -96,6 +101,7 @@
       <div class="divider"></div>
 
       <section
+        :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }"
         class="text-xs text-gray-600 p-2 border border-gray-200 rounded-md bg-gray-50 space-y-2"
       >
         <p>📐 {{ cropSettings.width }}x{{ cropSettings.height }}p</p>
