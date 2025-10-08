@@ -164,19 +164,20 @@
       <div class="divider"></div>
 
       <section class="flex flex-col gap-3">
-        <!-- Bouton Reset -->
         <button @click="resetCamera" class="btn w-full btn-outline btn-primary">
           🔄 Réinitialiser
         </button>
 
-        <!-- Bouton pour afficher les contrôles d'éclairage -->
         <button @click="toggleLightingControls" class="btn w-full btn-secondary btn-outline">
-          {{ showLightingControls ? '💡 Masquer Éclairage' : '💡 Contrôles Éclairage' }}
+          {{ panelSettings.lighting ? '💡 Masquer Éclairage' : '💡 Contrôles Éclairage' }}
         </button>
 
-        <!-- Bouton pour afficher les contrôles de crop -->
         <button @click="toggleCropControls" class="btn w-full btn-accent btn-outline">
-          {{ showCropControls ? '✂️ Masquer Crop' : '✂️ Contrôles Crop' }}
+          {{ panelSettings.crop ? '✂️ Masquer Crop' : '✂️ Contrôles Crop' }}
+        </button>
+
+        <button @click="toggleBackgroundControls" class="btn w-full btn-accent btn-outline">
+          {{ panelSettings.background ? '🚀 Masquer Background' : '🚀 Contrôles Background' }}
         </button>
       </section>
     </div>
@@ -217,5 +218,9 @@ function toggleCropControls() {
 
 function toggleLightingControls() {
   panelSettings.lighting = !panelSettings.lighting
+}
+
+function toggleBackgroundControls() {
+  panelSettings.background = !panelSettings.background
 }
 </script>

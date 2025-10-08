@@ -212,26 +212,6 @@
 
       <div class="divider"></div>
 
-      <section>
-        <h4 class="!mb-5">🌍 Éclairage global</h4>
-        <div class="flex flex-col gap-1">
-          <AppSlider
-            v-model.number="lightingSettings.exposureCompensation"
-            min="0.1"
-            max="3"
-            step="0.1"
-            :optional="lightingSettings.exposureCompensation.toFixed(1)"
-          />
-          <AppSlider
-            v-model.number="lightingSettings.backgroundBrightness"
-            min="0.1"
-            max="2"
-            step="0.1"
-            :optional="lightingSettings.backgroundBrightness.toFixed(1)"
-          />
-        </div>
-      </section>
-
       <button @click="resetLighting" class="btn">🔄 Réinitialiser Éclairage</button>
     </div>
   </aside>

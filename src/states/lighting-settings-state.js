@@ -28,10 +28,6 @@ const lightingSettings = reactive({
   spotAngle: 30,
   spotPenumbra: 0.1,
   spotDistance: 20,
-
-  // Éclairage global
-  exposureCompensation: 1.0,
-  backgroundBrightness: 1.0,
 })
 
 function resetLighting() {
@@ -48,9 +44,6 @@ function resetLighting() {
 
   lightingSettings.pointEnabled = false
   lightingSettings.spotEnabled = false
-
-  lightingSettings.exposureCompensation = 1.0
-  lightingSettings.backgroundBrightness = 1.0
 }
 
 export { lightingSettings, resetLighting }

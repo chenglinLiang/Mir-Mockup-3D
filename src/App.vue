@@ -37,6 +37,8 @@
 
       <TheCropSettingsPanel v-if="panelSettings.camera && panelSettings.crop" />
 
+      <TheBackgroundSettingsPanel v-if="panelSettings.camera && panelSettings.background" />
+
       <ThemeSwitcher class="absolute bottom-3 right-3" />
     </div>
   </div>
@@ -56,7 +58,7 @@ import TheLightingSettingsPanel from '@/components/TheLightingSettingsPanel.vue'
 import { useLightingDirectional } from '@/composables/useLightingDirectional.js'
 import { useLightingPoint } from '@/composables/useLightingPoint.js'
 import { useLightingSpot } from '@/composables/useLightingSpot.js'
-import { useLightingGlobal } from '@/composables/useLightingGlobal.js'
+import { useBackground } from '@/composables/useBackground.js'
 import TheCameraSettingsPanel from '@/components/TheCameraSettingsPanel.vue'
 import { useCropDimensions } from '@/composables/useCropDimensions.js'
 import { useCameraPosition } from '@/composables/useCameraPosition.js'
@@ -66,6 +68,7 @@ import TheRecordingAction from '@/components/TheRecordingAction.vue'
 import TheCropSettingsPanel from '@/components/TheCropSettingsPanel.vue'
 import { useTheme } from '@/composables/useTheme.js'
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
+import TheBackgroundSettingsPanel from '@/components/TheBackgroundSettingsPanel.vue'
 
 globalSettings.container = useTemplateRef('container')
 
@@ -135,25 +138,6 @@ async function init() {
   globalSettings.controls.maxDistance = cameraSettings.maxDistance
   globalSettings.controls.minPolarAngle = cameraSettings.minPolarAngle
   globalSettings.controls.maxPolarAngle = cameraSettings.maxPolarAngle
-
-  // Créer un dégradé pour le fond de scène
-  const canvas = document.createElement('canvas')
-  canvas.width = 1024
-  canvas.height = 1024
-  const context = canvas.getContext('2d')
-
-  // Créer le dégradé linéaire (du haut vers le bas)
-  const gradient = context.createLinearGradient(0, 0, 0, canvas.height)
-  gradient.addColorStop(0, '#87CEEB') // Bleu ciel en haut
-  gradient.addColorStop(1, '#FFF8DC') // Crème en bas
-
-  // Remplir le canvas avec le dégradé
-  context.fillStyle = gradient
-  context.fillRect(0, 0, canvas.width, canvas.height)
-
-  // Créer une texture à partir du canvas
-  const gradientTexture = new THREE.CanvasTexture(canvas)
-  globalSettings.scene.background = gradientTexture
 
   // Configuration initiale des lumières
   initializeLights()
@@ -250,7 +234,7 @@ const { init: initLightingAmbient } = useLightingAmbient()
 const { init: initLightingDirectional } = useLightingDirectional()
 const { init: initLightingPoint } = useLightingPoint()
 const { init: initLightingSpot } = useLightingSpot()
-const { init: initLightingGlobal } = useLightingGlobal()
+const { init: initBackground } = useBackground()
 
 useCropDimensions()
 useCameraPosition()
@@ -267,6 +251,6 @@ function initializeLights() {
   initLightingDirectional()
   initLightingPoint()
   initLightingSpot()
-  initLightingGlobal()
+  initBackground()
 }
 </script>
