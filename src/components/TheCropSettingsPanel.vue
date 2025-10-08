@@ -1,8 +1,5 @@
 <template>
-  <aside
-    class="card bg-base-100 shadow-sm absolute top-16 left-4 max-w-sm w-full z-50"
-    style="max-height: calc(100vh - 8rem); overflow-y: auto"
-  >
+  <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
       <section>
         <h4>Crop d'enregistrement</h4>

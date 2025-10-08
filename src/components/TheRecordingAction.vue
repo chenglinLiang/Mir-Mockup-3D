@@ -1,29 +1,31 @@
 <template>
-  <button class="btn absolute left-4 bottom-4 z-10" @click="onClick">
-    {{ videoLaunched ? '⬛ Stopper la vidéo' : '▶️ Lancer la vidéo' }}
-  </button>
+  <div class="relative flex flex-col gap-2">
+    <button class="btn" @click="onClick">
+      {{ videoLaunched ? '⬛ Stopper la vidéo' : '▶️ Lancer la vidéo' }}
+    </button>
 
-  <button @click="toggleRecording" class="btn btn-primary absolute left-4 bottom-16 z-10">
-    {{ isRecording ? '🔴 Arrêter' : '📹 Enregistrer' }}
-  </button>
+    <button @click="toggleRecording" class="btn btn-secondary">
+      {{ isRecording ? '🔴 Arrêter' : '📹 Enregistrer' }}
+    </button>
 
-  <div
-    v-if="isRecording"
-    class="absolute left-4 bottom-28 w-[300px] bg-black/80 rounded-lg p-3 text-white text-sm"
-  >
-    <div class="flex items-center gap-2 mb-2">
-      <span>🔴</span>
-      <span>Enregistrement en cours...</span>
-      <span style="margin-left: auto">{{ recordingProgress.toFixed(0) }}%</span>
-    </div>
-    <div class="w-full h-1 bg-white/30 rounded overflow-hidden">
-      <div
-        class="h-full bg-green-500 rounded transition-all duration-100 ease-linear"
-        :style="{ width: recordingProgress + '%' }"
-      ></div>
-    </div>
-    <div class="mt-2 text-xs opacity-80">
-      {{ Math.ceil(recordingDuration * (1 - recordingProgress / 100)).toFixed(0) }}s restantes
+    <div
+      v-if="isRecording"
+      class="absolute left-4 bottom-28 w-[300px] bg-black/80 rounded-lg p-3 text-white text-sm"
+    >
+      <div class="flex items-center gap-2 mb-2">
+        <span>🔴</span>
+        <span>Enregistrement en cours...</span>
+        <span style="margin-left: auto">{{ recordingProgress.toFixed(0) }}%</span>
+      </div>
+      <div class="w-full h-1 bg-white/30 rounded overflow-hidden">
+        <div
+          class="h-full bg-green-500 rounded transition-all duration-100 ease-linear"
+          :style="{ width: recordingProgress + '%' }"
+        ></div>
+      </div>
+      <div class="mt-2 text-xs opacity-80">
+        {{ Math.ceil(recordingDuration * (1 - recordingProgress / 100)).toFixed(0) }}s restantes
+      </div>
     </div>
   </div>
 </template>

@@ -1,8 +1,5 @@
 <template>
-  <aside
-    class="card bg-base-100 shadow-sm absolute top-16 right-4 max-w-md w-full z-50"
-    style="max-height: calc(100vh - 8rem); overflow: auto"
-  >
+  <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
       <h3 class="text-2xl font-bold mb-5">Contrôles Caméra</h3>
       <section>
@@ -167,18 +164,6 @@
         <button @click="resetCamera" class="btn w-full btn-outline btn-primary">
           🔄 Réinitialiser
         </button>
-
-        <button @click="toggleLightingControls" class="btn w-full btn-secondary btn-outline">
-          {{ panelSettings.lighting ? '💡 Masquer Éclairage' : '💡 Contrôles Éclairage' }}
-        </button>
-
-        <button @click="toggleCropControls" class="btn w-full btn-accent btn-outline">
-          {{ panelSettings.crop ? '✂️ Masquer Crop' : '✂️ Contrôles Crop' }}
-        </button>
-
-        <button @click="toggleBackgroundControls" class="btn w-full btn-accent btn-outline">
-          {{ panelSettings.background ? '🚀 Masquer Background' : '🚀 Contrôles Background' }}
-        </button>
       </section>
     </div>
   </aside>
@@ -188,7 +173,6 @@
 import AppSlider from '@/components/AppSlider.vue'
 import AppCheckbox from '@/components/AppCheckbox.vue'
 import { cameraSettings } from '@/states/camera-settings-state.js'
-import { panelSettings } from '@/states/panel-settings-state.js'
 
 const positionsPresets = [
   { name: 'Vue par défaut', position: { x: 0.6, y: 0.5, z: 20 }, target: { x: 0, y: 0.1, z: 0 } },
@@ -210,17 +194,5 @@ function applyPreset(preset) {
 function resetCamera() {
   const defaultPreset = positionsPresets[0]
   applyPreset(defaultPreset)
-}
-
-function toggleCropControls() {
-  panelSettings.crop = !panelSettings.crop
-}
-
-function toggleLightingControls() {
-  panelSettings.lighting = !panelSettings.lighting
-}
-
-function toggleBackgroundControls() {
-  panelSettings.background = !panelSettings.background
 }
 </script>

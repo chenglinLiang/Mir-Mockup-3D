@@ -1,13 +1,9 @@
 <template>
   <div style="width: 100vw; height: 100vh">
     <div ref="container" style="width: 100%; height: 100%; position: relative; overflow: hidden">
-      <TheRecordingAction />
-
-      <button @click="toggleControls" class="btn absolute top-4 right-4 z-20">
-        {{ panelSettings.camera ? '✕ Masquer' : '⚙️ Contrôles' }}
-      </button>
-
-      <TheCameraSettingsPanel v-if="panelSettings.camera" />
+      <div class="absolute bottom-3 left-3 z-10">
+        <TheRecordingAction />
+      </div>
 
       <div
         v-if="cropSettings.enabled"
@@ -33,19 +29,25 @@
         </div>
       </div>
 
-      <TheLightingSettingsPanel v-if="panelSettings.camera && panelSettings.lighting" />
+      <!-- Panels dynamiques -->
+      <template v-for="(panel, idx) in panelsOuverts" :key="panel.key">
+        <component
+          :is="panel.component"
+          class="absolute top-16 z-50 max-w-sm w-full"
+          :class="idx === 0 ? 'right-4' : 'left-4'"
+          style="max-height: calc(100vh - 8rem); overflow: auto"
+        />
+      </template>
 
-      <TheCropSettingsPanel v-if="panelSettings.camera && panelSettings.crop" />
-
-      <TheBackgroundSettingsPanel v-if="panelSettings.camera && panelSettings.background" />
-
-      <ThemeSwitcher class="absolute bottom-3 right-3" />
+      <div class="absolute bottom-3 right-3">
+        <TheMenu />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, useTemplateRef } from 'vue'
+import { onMounted, onBeforeUnmount, useTemplateRef, computed } from 'vue'
 import * as THREE from 'three'
 import { GLTFLoader, OrbitControls } from 'three-stdlib'
 
@@ -67,8 +69,8 @@ import { useCameraControls } from '@/composables/useCameraControls.js'
 import TheRecordingAction from '@/components/TheRecordingAction.vue'
 import TheCropSettingsPanel from '@/components/TheCropSettingsPanel.vue'
 import { useTheme } from '@/composables/useTheme.js'
-import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 import TheBackgroundSettingsPanel from '@/components/TheBackgroundSettingsPanel.vue'
+import TheMenu from '@/components/TheMenu.vue'
 
 globalSettings.container = useTemplateRef('container')
 
@@ -226,10 +228,6 @@ onBeforeUnmount(() => {
   globalSettings.renderer?.dispose()
 })
 
-function toggleControls() {
-  panelSettings.camera = !panelSettings.camera
-}
-
 const { init: initLightingAmbient } = useLightingAmbient()
 const { init: initLightingDirectional } = useLightingDirectional()
 const { init: initLightingPoint } = useLightingPoint()
@@ -243,6 +241,19 @@ useCameraControls()
 const { init: initTheme } = useTheme()
 
 onMounted(initTheme)
+
+// Liste des panels et leur composant
+const panelsList = [
+  { key: 'camera', component: TheCameraSettingsPanel },
+  { key: 'lighting', component: TheLightingSettingsPanel },
+  { key: 'crop', component: TheCropSettingsPanel },
+  { key: 'background', component: TheBackgroundSettingsPanel },
+]
+
+// Panels ouverts
+const panelsOuverts = computed(() => {
+  return panelsList.filter((p) => panelSettings[p.key])
+})
 
 function initializeLights() {
   if (!globalSettings.scene) return
