@@ -27,7 +27,7 @@
         <div class="divider"></div>
 
         <div class="text-sm text-gray-500">
-          <a href="https://github.com/juliendu11/mockup-3d" class="flex items-center gap-2">
+          <a href="https://github.com/juliendu11/mir-mockup-3d" class="flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
