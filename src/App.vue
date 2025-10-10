@@ -1,6 +1,7 @@
 <template>
   <div style="width: 100vw; height: 100vh">
     <WelcomeDialog v-model="dialog.welcome.show" />
+    <LoadingDialog v-model="dialog.loading.show" />
     <div ref="container" style="width: 100%; height: 100%; position: relative; overflow: hidden">
       <div class="absolute bottom-3 left-3 z-10">
         <TheRecordingAction />
@@ -52,7 +53,7 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, useTemplateRef, computed, reactive, watch } from 'vue'
+import { onMounted, onBeforeUnmount, useTemplateRef, computed, reactive, watch, ref } from 'vue'
 import * as THREE from 'three'
 import { GLTFLoader, OrbitControls } from 'three-stdlib'
 
@@ -80,6 +81,7 @@ import WelcomeDialog from '@/components/WelcomeDialog.vue'
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 import TheMediaSettingsPanel from '@/components/TheMediaSettingsPanel.vue'
 import { useMedia } from '@/composables/useMedia.js'
+import LoadingDialog from '@/components/LoadingDialog.vue'
 
 const { init: initLightingAmbient } = useLightingAmbient()
 const { init: initLightingDirectional } = useLightingDirectional()
@@ -101,6 +103,9 @@ globalSettings.container = useTemplateRef('container')
 
 const dialog = reactive({
   welcome: {
+    show: false,
+  },
+  loading: {
     show: false,
   },
 })
@@ -131,13 +136,25 @@ onMounted(() => {
 
   if (!data.done) {
     dialog.welcome.show = true
+    return
   }
+
+  init()
 })
+
+watch(
+  () => dialog.welcome.show,
+  (value) => {
+    if (!value) init()
+  },
+)
 
 let rafId = 0
 
 async function init() {
   if (!globalSettings.container.value) return
+
+  dialog.loading.show = true
 
   // Rendu
   globalSettings.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
@@ -231,6 +248,8 @@ async function init() {
     globalSettings.camera.updateProjectionMatrix()
   }
   window.addEventListener('resize', onResize)
+
+  dialog.loading.show = false
 }
 
 function initializeLights() {
@@ -242,8 +261,6 @@ function initializeLights() {
   initLightingSpot()
   initBackground()
 }
-
-onMounted(init)
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(rafId)
