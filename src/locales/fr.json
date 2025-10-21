@@ -106,5 +106,19 @@
     "x": "X:",
     "y": "Y:",
     "z": "Z:"
+  },
+  "dialogs": {
+    "about": {
+      "title": "À propos",
+      "text": "N'hésitez pas à me contacter pour toute suggestion, question, problème ou proposition de projet en utilisant le formulaire de contact sur mon site",
+      "details": {
+        "developer": {
+          "label": "Développeur:"
+        }
+      },
+      "actions": {
+        "close": "Fermer"
+      }
+    }
   }
 }
