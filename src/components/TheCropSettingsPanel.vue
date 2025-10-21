@@ -2,11 +2,11 @@
   <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
       <section>
-        <h4>Crop d'enregistrement</h4>
+        <h4>{{ t('crop.title') }}</h4>
 
         <AppCheckbox
           v-model="cropSettings.enabled"
-          label="Activer le crop"
+          :label="t('crop.enable')"
           class="mt-5"
           text-size="lg"
         />
@@ -14,7 +14,7 @@
       <div class="divider"></div>
 
       <section :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }">
-        <h4>Presets</h4>
+        <h4>{{ t('crop.presets') }}</h4>
         <div class="grid grid-cols-2 gap-2">
           <button
             v-for="preset in dimensionPresets.slice(0, 6)"
@@ -29,10 +29,10 @@
       <div class="divider"></div>
 
       <section :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }">
-        <h4>Dimensions</h4>
+        <h4>{{ t('crop.dimensions') }}</h4>
         <div class="flex flex-col gap-1">
           <div class="grid grid-cols-[60px_1fr] gap-2 items-center mb-1">
-            <label style="font-size: 0.8rem">Largeur:</label>
+            <label style="font-size: 0.8rem">{{ t('crop.width') }}</label>
             <input
               v-model.number="cropSettings.width"
               type="number"
@@ -45,7 +45,7 @@
           <div
             style="display: grid; grid-template-columns: 60px 1fr; gap: 0.5rem; align-items: center"
           >
-            <label style="font-size: 0.8rem">Hauteur:</label>
+            <label style="font-size: 0.8rem">{{ t('crop.height') }}</label>
             <input
               v-model.number="cropSettings.height"
               type="number"
@@ -59,7 +59,7 @@
 
           <AppCheckbox
             v-model="cropSettings.customAspectRatio"
-            label="Ratio personnalisé"
+            :label="t('crop.customRatio')"
             class="mt-3"
           />
         </div>
@@ -67,7 +67,7 @@
       <div class="divider"></div>
 
       <section :class="{ 'opacity-50 pointer-events-none': !cropSettings.enabled }">
-        <h4>Position</h4>
+        <h4>{{ t('crop.position') }}</h4>
         <div class="flex flex-col gap-1">
           <AppSlider
             v-model.number="cropSettings.x"
@@ -121,6 +121,9 @@ import { cropSettings } from '@/states/crop-settings-state.js'
 import { globalSettings } from '@/states/global-settings-state.js'
 import AppCheckbox from '@/components/AppCheckbox.vue'
 import AppSlider from '@/components/AppSlider.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const dimensionPresets = [
   { name: '1920x1080 (16:9)', width: 1920, height: 1080, aspectRatio: '16:9' },
@@ -129,7 +132,7 @@ const dimensionPresets = [
   { name: '1080x1350 (4:5)', width: 1080, height: 1350, aspectRatio: '4:5' },
   { name: '1080x1920 (9:16)', width: 1080, height: 1920, aspectRatio: '9:16' },
   { name: '854x480 (16:9)', width: 854, height: 480, aspectRatio: '16:9' },
-  { name: 'Personnalisé', width: 1920, height: 1080, aspectRatio: 'custom' },
+  { name: 'Custom', width: 1920, height: 1080, aspectRatio: 'custom' },
 ]
 
 function applyDimensionPreset(preset) {
@@ -138,7 +141,7 @@ function applyDimensionPreset(preset) {
   cropSettings.aspectRatio = preset.aspectRatio
   cropSettings.customAspectRatio = preset.aspectRatio === 'custom'
 
-  // Centrer le crop dans le canvas actuel
+  // Center the crop in the current canvas
   if (globalSettings.renderer && globalSettings.container.value) {
     const canvasWidth = globalSettings.container.value.clientWidth
     const canvasHeight = globalSettings.container.value.clientHeight

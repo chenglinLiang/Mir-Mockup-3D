@@ -75,25 +75,25 @@
 }
 
 
-/* Plein écran de démo si tu montes le composant seul */
+/* Full screen demo if you mount the component alone */
 :host,
 .wrap {
   width: 100%;
   height: 100%;
 }
 
-/* S'assure que le conteneur principal occupe tout l'écran */
+/* Ensures main container fills the entire screen */
 div {
   border: none !important;
   outline: none !important;
 }
 
-/* Cache les barres de défilement potentielles */
+/* Hide potential scrollbars */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* Styles pour Firefox */
+/* Styles for Firefox */
 * {
   scrollbar-width: none;
 }
@@ -105,4 +105,22 @@ aside section h4 {
 aside .divider {
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
+}
+
+.icon-fade-enter-active,
+.icon-fade-leave-active {
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+  transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-fade-enter-from,
+.icon-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.7) rotate(-20deg);
+}
+
+.icon-fade-enter-to,
+.icon-fade-leave-from {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }

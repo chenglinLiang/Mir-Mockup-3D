@@ -27,11 +27,11 @@
         <div
           class="absolute -top-8 left-0 bg-[#ff6b35] text-white px-2 py-1 rounded font-bold text-xs whitespace-nowrap"
         >
-          Zone d'enregistrement {{ cropSettings.width }}×{{ cropSettings.height }}
+          {{ $t('crop.title') }} {{ cropSettings.width }}×{{ cropSettings.height }}
         </div>
       </div>
 
-      <!-- Panels dynamiques -->
+      <!-- Dynamic panels -->
       <template v-for="(panel, idx) in panelsOuverts" :key="panel.key">
         <component
           :is="panel.component"
@@ -46,7 +46,10 @@
       </div>
 
       <div class="absolute bottom-3 right-3 z-40">
-        <ThemeSwitcher />
+        <div class="flex flex-col gap-3">
+          <LanguageSwitcher />
+          <ThemeSwitcher />
+        </div>
       </div>
     </div>
   </div>
@@ -82,6 +85,7 @@ import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 import TheMediaSettingsPanel from '@/components/TheMediaSettingsPanel.vue'
 import { useMedia } from '@/composables/useMedia.js'
 import LoadingDialog from '@/components/LoadingDialog.vue'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
 const { init: initLightingAmbient } = useLightingAmbient()
 const { init: initLightingDirectional } = useLightingDirectional()
@@ -156,7 +160,7 @@ async function init() {
 
   dialog.loading.show = true
 
-  // Rendu
+  // Renderer
   globalSettings.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
   globalSettings.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   globalSettings.renderer.setSize(
@@ -168,7 +172,7 @@ async function init() {
   globalSettings.renderer.outputColorSpace = THREE.SRGBColorSpace
   globalSettings.container.value.appendChild(globalSettings.renderer.domElement)
 
-  // Scène & caméra
+  // Scene & camera
   globalSettings.scene = new THREE.Scene()
   globalSettings.camera = new THREE.PerspectiveCamera(
     35,
@@ -178,7 +182,7 @@ async function init() {
   )
   globalSettings.camera.position.set(0.6, 0.5, 20)
 
-  // Contrôles
+  // Controls
   globalSettings.controls = new OrbitControls(
     globalSettings.camera,
     globalSettings.renderer.domElement,
@@ -199,10 +203,10 @@ async function init() {
   globalSettings.controls.minPolarAngle = cameraSettings.minPolarAngle
   globalSettings.controls.maxPolarAngle = cameraSettings.maxPolarAngle
 
-  // Configuration initiale des lumières
+  // Initial light configuration
   initializeLights()
 
-  // Modèle iPhone (GLB)
+  // iPhone model (GLB)
   const gltf = await new GLTFLoader().loadAsync('/models/iphone.glb')
   const phone = gltf.scene
   phone.traverse((obj) => {
@@ -220,18 +224,18 @@ async function init() {
 
   initSource()
 
-  // Échelle/position du téléphone
+  // Phone scale/position
   phone.scale.set(0.9, 0.9, 0.9)
   globalSettings.scene.add(phone)
 
-  // Pause/Resume suivant la visibilité
+  // Pause/Resume based on visibility
   document.addEventListener('visibilitychange', () => {
     if (!globalSettings.videoEl) return
     if (document.hidden) globalSettings.videoEl.pause()
     else globalSettings.videoEl.play().catch(() => {})
   })
 
-  // Boucle de rendu
+  // Render loop
   const tick = () => {
     globalSettings.controls.update()
     globalSettings.renderer.render(globalSettings.scene, globalSettings.camera)
@@ -273,7 +277,7 @@ onBeforeUnmount(() => {
   globalSettings.renderer?.dispose()
 })
 
-// Liste des panels et leur composant
+// List of panels and their components
 const panelsList = [
   { key: 'camera', component: TheCameraSettingsPanel },
   { key: 'lighting', component: TheLightingSettingsPanel },
@@ -282,7 +286,7 @@ const panelsList = [
   { key: 'media', component: TheMediaSettingsPanel },
 ]
 
-// Panels ouverts
+// Open panels
 const panelsOuverts = computed(() => {
   return panelsList.filter((p) => panelSettings[p.key])
 })

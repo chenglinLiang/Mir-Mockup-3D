@@ -1,9 +1,9 @@
 <template>
   <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
-      <h3 class="text-2xl font-bold mb-5">Contrôles Caméra</h3>
+      <h3 class="text-2xl font-bold mb-5">{{ t('camera.title') }}</h3>
       <section>
-        <h4>Vues prédéfinies</h4>
+        <h4>{{ t('camera.presets') }}</h4>
         <div class="grid grid-cols-2 gap-2">
           <button
             class="btn btn-primary btn-outline btn-sm"
@@ -19,7 +19,7 @@
       <div class="divider"></div>
 
       <section>
-        <h4>Position</h4>
+        <h4>{{ t('camera.position') }}</h4>
         <div class="flex flex-col gap-1">
           <AppSlider
             v-model.number="cameraSettings.position.x"
@@ -51,7 +51,7 @@
       <div class="divider"></div>
 
       <section>
-        <h4>Cible</h4>
+        <h4>{{ t('camera.target') }}</h4>
         <div class="flex flex-col gap-1">
           <AppSlider
             v-model.number="cameraSettings.target.x"
@@ -85,7 +85,7 @@
       <div class="divider"></div>
 
       <section>
-        <h4>Champ de vision</h4>
+        <h4>{{ t('camera.fov') }}</h4>
         <div class="flex flex-col gap-1">
           <AppSlider
             v-model.number="cameraSettings.fov"
@@ -103,7 +103,7 @@
       <section>
         <AppCheckbox
           v-model="cameraSettings.autoRotate"
-          label="Rotation automatique"
+          :label="t('camera.autoRotate')"
           class="mb-5"
         />
 
@@ -122,7 +122,7 @@
       <div class="divider"></div>
 
       <section>
-        <h4>Limites de zoom</h4>
+        <h4>{{ t('camera.zoomLimits') }}</h4>
         <div class="flex flex-col gap-1">
           <AppSlider
             v-model.number="cameraSettings.minDistance"
@@ -130,7 +130,7 @@
             min="0.1"
             max="5"
             step="0.1"
-            label="Min:"
+            :label="t('camera.min')"
             :optional="cameraSettings.minDistance.toFixed(1)"
           />
 
@@ -140,7 +140,7 @@
             min="5"
             max="50"
             step="1"
-            label="Max:"
+            :label="t('camera.max')"
             :optional="cameraSettings.maxDistance.toFixed(1)"
           />
         </div>
@@ -149,20 +149,20 @@
       <div class="divider"></div>
 
       <section>
-        <h4>Interactions</h4>
+        <h4>{{ t('camera.interactions') }}</h4>
         <div class="flex flex-col gap-2">
-          <AppCheckbox v-model="cameraSettings.enableZoom" label="Zoom" />
+          <AppCheckbox v-model="cameraSettings.enableZoom" :label="t('camera.zoom')" />
 
-          <AppCheckbox v-model="cameraSettings.enablePan" label="Panoramique" />
+          <AppCheckbox v-model="cameraSettings.enablePan" :label="t('camera.pan')" />
 
-          <AppCheckbox v-model="cameraSettings.enableRotate" label="Rotation" />
+          <AppCheckbox v-model="cameraSettings.enableRotate" :label="t('camera.rotate')" />
         </div>
       </section>
       <div class="divider"></div>
 
       <section class="flex flex-col gap-3">
         <button @click="resetCamera" class="btn w-full btn-outline btn-primary">
-          🔄 Réinitialiser
+          {{ t('camera.reset') }}
         </button>
       </section>
     </div>
@@ -172,15 +172,19 @@
 <script setup lang="ts">
 import AppSlider from '@/components/AppSlider.vue'
 import AppCheckbox from '@/components/AppCheckbox.vue'
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 import { cameraSettings } from '@/states/camera-settings-state.js'
 
-const positionsPresets = [
-  { name: 'Vue par défaut', position: { x: 0.6, y: 0.5, z: 20 }, target: { x: 0, y: 0.1, z: 0 } },
-  { name: 'Vue de face', position: { x: 0, y: 0.1, z: 20 }, target: { x: 0, y: 0.1, z: 0 } },
-  { name: 'Vue de côté', position: { x: 2, y: 0.1, z: 0 }, target: { x: 0, y: 0.1, z: 0 } },
-  { name: 'Vue du dessus', position: { x: 0, y: 3, z: 0 }, target: { x: 0, y: 0, z: 0 } },
-  { name: 'Vue en plongée', position: { x: -1, y: 1.5, z: 1.5 }, target: { x: 0, y: 0.1, z: 0 } },
-]
+const { t } = useI18n()
+
+const positionsPresets = computed(() => [
+  { name: t('camera.viewPresets.default'), position: { x: 0.6, y: 0.5, z: 20 }, target: { x: 0, y: 0.1, z: 0 } },
+  { name: t('camera.viewPresets.front'), position: { x: 0, y: 0.1, z: 20 }, target: { x: 0, y: 0.1, z: 0 } },
+  { name: t('camera.viewPresets.side'), position: { x: 2, y: 0.1, z: 0 }, target: { x: 0, y: 0.1, z: 0 } },
+  { name: t('camera.viewPresets.top'), position: { x: 0, y: 3, z: 0 }, target: { x: 0, y: 0, z: 0 } },
+  { name: t('camera.viewPresets.aerial'), position: { x: -1, y: 1.5, z: 1.5 }, target: { x: 0, y: 0.1, z: 0 } },
+])
 
 function applyPreset(preset) {
   cameraSettings.position.x = preset.position.x
@@ -192,7 +196,7 @@ function applyPreset(preset) {
 }
 
 function resetCamera() {
-  const defaultPreset = positionsPresets[0]
+  const defaultPreset = positionsPresets.value[0]
   applyPreset(defaultPreset)
 }
 </script>

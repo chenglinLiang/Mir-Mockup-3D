@@ -9,7 +9,7 @@ export const useCropDimensions = () => {
 
   function updateCropDimensions() {
     if (!cropSettings.customAspectRatio) {
-      // Maintenir le ratio d'aspect
+      // Maintain aspect ratio
       const ratios = {
         '16:9': 16 / 9,
         '1:1': 1,
@@ -23,7 +23,7 @@ export const useCropDimensions = () => {
       }
     }
 
-    // S'assurer que le crop reste dans les limites du canvas
+    // Ensure crop stays within canvas bounds
     if (globalSettings.renderer && globalSettings.container.value) {
       const canvasWidth = globalSettings.container.value.clientWidth
       const canvasHeight = globalSettings.container.value.clientHeight

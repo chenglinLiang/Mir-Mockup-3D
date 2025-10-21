@@ -2,40 +2,34 @@
   <div v-if="model">
     <div class="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-80">
       <div class="card bg-base-100 rounded-lg shadow-lg p-6 max-w-[780px] w-full">
-        <h2 class="text-2xl font-bold mb-4">Bienvenue !</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ t('welcome.title') }}</h2>
         <p class="mb-4">
-          Merci d'utiliser notre application. Voici quelques conseils pour bien commencer :
+          {{ t('welcome.intro') }}
         </p>
         <ul class="mb-4 list-disc list-inside">
-          <li>Utilisez les paramètres de caméra pour ajuster la vue.</li>
-          <li>Configurez l'éclairage pour mettre en valeur votre modèle.</li>
-          <li>Personnalisez l'arrière-plan avec une couleur ou une image.</li>
-          <li>
-            L'option <strong>"Fond > Luminosité"</strong> change vraiment le design de mockup, je
-            vous conseille de jouer avec celui-ci
-          </li>
-          <li>Utilisez les options de recadrage pour obtenir le rendu souhaité.</li>
-          <li>Utiliser un ordinateur, le site n’a pas été prévu pour les petits écrans</li>
+          <li>{{ t('welcome.tips.camera') }}</li>
+          <li>{{ t('welcome.tips.lighting') }}</li>
+          <li>{{ t('welcome.tips.background') }}</li>
+          <li>{{ t('welcome.tips.brightness') }}</li>
+          <li>{{ t('welcome.tips.crop') }}</li>
+          <li>{{ t('welcome.tips.desktop') }}</li>
         </ul>
         <div class="divider"></div>
 
         <div class="alert alert-info mb-2">
-          <p>Certaines options comme le <strong>crop</strong> sont assujetties à des erreurs</p>
+          <p>{{ t('welcome.warnings.cropErrors') }}</p>
         </div>
         <div class="alert alert-info mb-2">
-          <p>Vous ne pouvez qu'ouvrir que 2 panels à la fois</p>
+          <p>{{ t('welcome.warnings.maxPanels') }}</p>
         </div>
         <div class="alert alert-info mb-2">
-          <p>Actuellement un seul modèle est disponible: <strong>iPhone</strong></p>
+          <p>{{ t('welcome.warnings.singleModel') }}</p>
         </div>
         <div class="alert alert-info">
           <p>
-            Pas d'options pour redimensionné le mockup pour le moment. Format vidéo recommendé:
-            <strong>1080x2400</strong>
+            {{ t('welcome.warnings.noResize') }}
 
-            <small class="block mt-1"
-              >*Taille d'origine quand vous filmez votre téléphone depuis votre téléphone</small
-            >
+            <small class="block mt-1">{{ t('welcome.warnings.originalSize') }}</small>
           </p>
         </div>
         <div class="divider"></div>
@@ -53,17 +47,23 @@
               />
             </svg>
             <p>
-              Projet open source avec rendu côté client uniquement sans aucune sauvegarde de donnée
+              {{ t('welcome.opensource') }}
             </p>
           </a>
         </div>
-        <button @click="model = false" class="mt-8 btn btn-primary">Commencer</button>
+        <button @click="model = false" class="mt-8 btn btn-primary">
+          {{ t('welcome.start') }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 const model = defineModel({
   type: Boolean,
   required: true,

@@ -1,39 +1,37 @@
-# Mir - Mockup 3D
+# Mir - 3D Mockup
 
-Mir une application Vue JS uniquement côté client pour faire des vidéos mockup 3D à partir d'un modèle, ici avec un
-modèle d'iPhone.
+Mir is a client-side Vue JS application for creating 3D mockup videos from a model, here with an iPhone model.
 
-Vous pouvez incruster une vidéo à l'intérieur puis calibrer diverses options pour obtenir le rendu espéré.
+You can embed a video inside and then calibrate various options to achieve the desired result.
 
-Enfin vous pouvez en faire une vidéo qui peut servir d’outil marketing pour vos projets.
+Finally, you can create a video that can be used as a marketing tool for your projects.
 
-Accéder au projet [ici](https://mir.julien-dacosta.dev/)
+Access the project [here](https://mir.julien-dacosta.dev/)
 
 <img src="/resources/images/preview.png">
 
 ## Motivation
 
-J'avais besoin d'un outil de mockup 3D pour le marketing d'une de mes applications. Je suis tombé
-sur https://contentcore.xyz/, mais j'ai rencontré des problèmes lors du rendu vidéo: impossible d'obtenir une vidéo
-complète, seulement de petits bouts.
+I needed a 3D mockup tool for marketing one of my apps. I came across https://contentcore.xyz/, but I encountered
+problems with the video rendering: I couldn't get a full video, only small snippets.
 
-J'ai donc décidé de construire mon propre outil.
+So I decided to build my own tool.
 
-## Fonctionnalités
+## Features
 
-- Mockup 3D HD
-- Incrustation vidéo
-- Fond, lumière, position de la caméra et croppage paramètrable
-- Enregistrement vidéo avec vidéo incrustrer
-- Effet rotation automatique
+- 3D HD mockup
+- Video overlay
+- Configurable background, lighting, camera position, and cropping
+- Video recording with overlay
+- Automatic rotation effect
 
 ## TODO
 
-- [ ] Incustration image seulement
-- [ ] Ajouts modèles 3D
-- [ ] Redimensionnage modèle
-- [ ] Amélioration vidéo avec IA (auto fit)
+- [ ] Image overlay only
+- [ ] 3D model additions
+- [ ] Model resizing
+- [ ] Video enhancement with AI (auto fit)
 
 ## Note
 
-L'application n'est pas prévu pour petits écrans
+The application is not designed for small screens

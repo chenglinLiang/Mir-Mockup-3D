@@ -19,13 +19,13 @@ export const useMedia = () => {
   }
 
   const updateVideoSource = () => {
-    // Nettoyage de l'ancienne vidéo
+    // Cleanup old video
     if (globalSettings.videoEl) {
       globalSettings.videoEl.pause()
       globalSettings.videoEl.src = ''
       globalSettings.videoEl.load()
     }
-    // Suppression de l'ancienne texture
+    // Remove old texture
     if (videoTex) {
       videoTex.dispose()
       videoTex = null
@@ -53,25 +53,25 @@ export const useMedia = () => {
       const screenGeo = new THREE.PlaneGeometry(0.62, 1.34) // ratio ~ iPhone
       const screenMat = new THREE.MeshBasicMaterial({ map: videoTex, toneMapped: false })
       const screenPlane = new THREE.Mesh(screenGeo, screenMat)
-      screenPlane.position.set(0, 0.1, 0.03) // colle au dessus
+      screenPlane.position.set(0, 0.1, 0.03) // stick on top
       globalSettings.phone.add(screenPlane)
     }
   }
 
   function makeVideoTexture(src) {
-    // Crée la balise vidéo en mémoire (nécessaire pour autoplay mobile)
+    // Create video element in memory (required for mobile autoplay)
     const v = document.createElement('video')
     v.src = src
     v.muted = true // autoplay policy
     v.loop = true
     v.playsInline = true // iOS
     v.crossOrigin = 'anonymous'
-    // IMPORTANT : on ne lance play() qu’après un geste utilisateur (voir below)
+    // IMPORTANT: only call play() after user gesture (see below)
     const tex = new THREE.VideoTexture(v)
     tex.colorSpace = THREE.SRGBColorSpace
     tex.minFilter = THREE.LinearFilter
     tex.magFilter = THREE.LinearFilter
-    tex.encoding = THREE.sRGBEncoding // compat anciennes dts
+    tex.encoding = THREE.sRGBEncoding // compat old dts
     tex.generateMipmaps = false
     return { v, tex }
   }

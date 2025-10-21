@@ -38,7 +38,7 @@
     </div>
 
     <!-- buttons that show up when FAB is open -->
-    <div class="tooltip" data-tip="Média">
+    <div class="tooltip" :data-tip="t('menu.media')">
       <button
         class="btn btn-lg btn-circle"
         :class="{ 'btn-primary': panelSettings.media }"
@@ -60,7 +60,7 @@
         </svg>
       </button>
     </div>
-    <div class="tooltip tooltip-left" data-tip="Caméra">
+    <div class="tooltip tooltip-left" :data-tip="t('menu.camera')">
       <button
         class="btn btn-lg btn-circle"
         :class="{ 'btn-primary': panelSettings.camera }"
@@ -87,7 +87,7 @@
         </svg>
       </button>
     </div>
-    <div class="tooltip tooltip-left" data-tip="Éclairage">
+    <div class="tooltip tooltip-left" :data-tip="t('menu.lighting')">
       <button
         class="btn btn-lg btn-circle"
         :class="{ 'btn-primary': panelSettings.lighting }"
@@ -109,7 +109,7 @@
         </svg>
       </button>
     </div>
-    <div class="tooltip" data-tip="Crop">
+    <div class="tooltip" :data-tip="t('menu.crop')">
       <button
         class="btn btn-lg btn-circle"
         :class="{ 'btn-primary': panelSettings.crop }"
@@ -131,7 +131,7 @@
         </svg>
       </button>
     </div>
-    <div id="old" class="tooltip" data-tip="Fond">
+    <div id="old" class="tooltip" :data-tip="t('menu.background')">
       <button
         class="btn btn-lg btn-circle"
         :class="{ 'btn-primary': panelSettings.background }"
@@ -157,7 +157,10 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { panelSettings } from '@/states/panel-settings-state.js'
+
+const { t } = useI18n()
 
 function toggleCropControls() {
   panelSettings.crop = !panelSettings.crop

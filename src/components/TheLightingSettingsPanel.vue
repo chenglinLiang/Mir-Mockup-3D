@@ -1,13 +1,13 @@
 <template>
   <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
-      <h3 class="text-2xl font-bold mb-5">💡 Contrôles Éclairage</h3>
+      <h3 class="text-2xl font-bold mb-5">{{ t('lighting.title') }}</h3>
 
       <section>
-        <AppCheckbox v-model="lightingSettings.ambientEnabled" label="🌅 Lumière ambiante" />
+        <AppCheckbox v-model="lightingSettings.ambientEnabled" :label="t('lighting.ambient')" />
         <div v-if="lightingSettings.ambientEnabled" class="flex flex-col gap-1 mt-5">
           <div class="grid grid-cols-[50px_1fr_50px] gap-2 items-center mb-2">
-            <label style="font-size: 0.8rem">Couleur:</label>
+            <label style="font-size: 0.8rem">{{ t('lighting.color') }}</label>
             <input
               v-model="lightingSettings.ambientColor"
               type="color"
@@ -21,7 +21,7 @@
             min="0"
             max="2"
             step="0.05"
-            label="Force:"
+            :label="t('lighting.intensity')"
             :optional="lightingSettings.ambientIntensity.toFixed(2)"
           />
         </div>
@@ -32,11 +32,11 @@
       <section>
         <AppCheckbox
           v-model="lightingSettings.directionalEnabled"
-          label="☀️ Lumière directionnelle"
+          :label="t('lighting.directional')"
         />
         <div v-if="lightingSettings.directionalEnabled" class="flex flex-col gap-1 mt-5">
           <div class="flex items-center gap-3 mb-2">
-            <label class="text-sm">Couleur:</label>
+            <label class="text-sm">{{ t('lighting.color') }}</label>
             <input
               v-model="lightingSettings.directionalColor"
               type="color"
@@ -50,10 +50,10 @@
             min="0"
             max="5"
             step="0.1"
-            label="Force:"
+            :label="t('lighting.intensity')"
             :optional="lightingSettings.directionalIntensity.toFixed(1)"
           />
-          <p class="mt-3 text-sm">Position:</p>
+          <p class="mt-3 text-sm">{{ t('lighting.position') }}</p>
           <div class="flex flex-col gap-1">
             <AppSlider
               v-model.number="lightingSettings.directionalPosition.x"
@@ -94,11 +94,11 @@
         <AppCheckbox
           v-model="lightingSettings.pointEnabled"
           type="checkbox"
-          label="💡 Lumière ponctuelle"
+          :label="t('lighting.point')"
         />
         <div v-if="lightingSettings.pointEnabled" class="flex flex-col gap-1 mt-5">
           <div class="flex items-center gap-3 mb-2">
-            <label class="text-sm">Couleur:</label>
+            <label class="text-sm">{{ t('lighting.color') }}</label>
             <input
               v-model="lightingSettings.pointColor"
               type="color"
@@ -112,7 +112,7 @@
             min="0"
             max="10"
             step="0.1"
-            label="Force:"
+            :label="t('lighting.intensity')"
             :optional="lightingSettings.pointIntensity.toFixed(1)"
           />
           <AppSlider
@@ -121,10 +121,10 @@
             min="1"
             max="50"
             step="1"
-            label="Distance:"
+            :label="t('lighting.distance')"
             :optional="lightingSettings.pointDistance"
           />
-          <p class="mt-3 text-sm">Position:</p>
+          <p class="mt-3 text-sm">{{ t('lighting.position') }}</p>
           <div class="flex flex-col gap-1">
             <AppSlider
               v-model.number="lightingSettings.pointPosition.x"
@@ -165,11 +165,11 @@
         <AppCheckbox
           v-model="lightingSettings.spotEnabled"
           type="checkbox"
-          label="🔦 Lumière spot"
+          :label="t('lighting.spot')"
         />
         <div v-if="lightingSettings.spotEnabled" class="flex flex-col gap-1 mt-5">
           <div class="flex items-center gap-3 mb-2">
-            <label class="text-sm">Couleur:</label>
+            <label class="text-sm">{{ t('lighting.color') }}</label>
             <input
               v-model="lightingSettings.spotColor"
               type="color"
@@ -183,7 +183,7 @@
             min="0"
             max="10"
             step="0.1"
-            label="Force:"
+            :label="t('lighting.intensity')"
             :optional="lightingSettings.spotIntensity.toFixed(1)"
           />
 
@@ -192,7 +192,7 @@
             min="5"
             max="90"
             step="1"
-            label="Angle:"
+            :label="t('lighting.angle')"
             :optional="lightingSettings.spotAngle + '°'"
           />
 
@@ -201,7 +201,7 @@
             min="0"
             max="1"
             step="0.05"
-            label="Flou:"
+            :label="t('lighting.blur')"
             :optional="lightingSettings.spotPenumbra.toFixed(2)"
           />
         </div>
@@ -209,7 +209,7 @@
 
       <div class="divider"></div>
 
-      <button @click="resetLighting" class="btn">🔄 Réinitialiser Éclairage</button>
+      <button @click="resetLighting" class="btn">{{ t('lighting.reset') }}</button>
     </div>
   </aside>
 </template>
@@ -217,6 +217,9 @@
 <script setup>
 import AppSlider from '@/components/AppSlider.vue'
 import AppCheckbox from '@/components/AppCheckbox.vue'
+import { useI18n } from 'vue-i18n'
 
 import { lightingSettings, resetLighting } from '@/states/lighting-settings-state.js'
+
+const { t } = useI18n()
 </script>

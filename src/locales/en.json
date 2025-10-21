@@ -1,0 +1,110 @@
+{
+  "welcome": {
+    "title": "Welcome!",
+    "intro": "Thank you for using our application. Here are some tips to get started:",
+    "tips": {
+      "camera": "Use camera settings to adjust the view.",
+      "lighting": "Configure lighting to highlight your model.",
+      "background": "Customize the background with a color or image.",
+      "brightness": "The \"Background > Brightness\" option really changes the mockup design, I recommend playing with it",
+      "crop": "Use cropping options to get the desired result.",
+      "desktop": "Use a computer, the site is not designed for small screens"
+    },
+    "warnings": {
+      "cropErrors": "Some options like crop are subject to errors",
+      "maxPanels": "You can only open 2 panels at a time",
+      "singleModel": "Currently only one model is available: iPhone",
+      "noResize": "No option to resize the mockup for now. Recommended video format: 1080x2400",
+      "originalSize": "*Original size when you film your phone from your phone"
+    },
+    "opensource": "Open source project with client-side rendering only without any data storage",
+    "start": "Start"
+  },
+  "loading": {
+    "title": "Loading..."
+  },
+  "menu": {
+    "media": "Media",
+    "camera": "Camera",
+    "lighting": "Lighting",
+    "crop": "Crop",
+    "background": "Background"
+  },
+  "media": {
+    "title": "Source",
+    "intro": "By default, a demo video is selected, it's a video about my other app.",
+    "habitsHero": "Habits Hero",
+    "story": "I needed to make a TikTok video with a nice presentation. That's why this project was born.",
+    "videoPlaceholder": "Video",
+    "recommendedFormat": "Recommended format: 1080x2400"
+  },
+  "background": {
+    "imageBackground": "Background image",
+    "imagePlaceholder": "image",
+    "colorBackground": "Background color",
+    "color": "Color:",
+    "exposure": "Exposure:",
+    "brightness": "Brightness (adds real value to the rendering):"
+  },
+  "lighting": {
+    "title": "💡 Lighting Controls",
+    "ambient": "🌅 Ambient light",
+    "directional": "☀️ Directional light",
+    "point": "💡 Point light",
+    "spot": "🔦 Spot light",
+    "color": "Color:",
+    "intensity": "Intensity:",
+    "position": "Position:",
+    "distance": "Distance:",
+    "angle": "Angle:",
+    "blur": "Blur:",
+    "reset": "🔄 Reset Lighting"
+  },
+  "camera": {
+    "title": "Camera Controls",
+    "presets": "Predefined views",
+    "position": "Position",
+    "target": "Target",
+    "fov": "Field of view",
+    "autoRotate": "Auto rotation",
+    "zoomLimits": "Zoom limits",
+    "min": "Min:",
+    "max": "Max:",
+    "interactions": "Interactions",
+    "zoom": "Zoom",
+    "pan": "Pan",
+    "rotate": "Rotate",
+    "reset": "🔄 Reset",
+    "viewPresets": {
+      "default": "Default view",
+      "front": "Front view",
+      "side": "Side view",
+      "top": "Top view",
+      "aerial": "Aerial view"
+    }
+  },
+  "crop": {
+    "title": "Recording Crop",
+    "enable": "Enable crop",
+    "presets": "Presets",
+    "dimensions": "Dimensions",
+    "width": "Width:",
+    "height": "Height:",
+    "customRatio": "Custom ratio",
+    "position": "Position",
+    "fileInfo": "🎬 File: mockup-3d-recording-{width}x{height}-[timestamp].webm"
+  },
+  "recording": {
+    "stopVideo": "⬛ Stop video",
+    "playVideo": "▶️ Play video",
+    "stop": "🔴 Stop",
+    "record": "📹 Record",
+    "inProgress": "Recording in progress...",
+    "remaining": "{seconds}s remaining"
+  },
+  "common": {
+    "x": "X:",
+    "y": "Y:",
+    "z": "Z:"
+  }
+}

@@ -1,11 +1,11 @@
 <template>
   <div class="relative flex flex-col gap-2">
     <button class="btn" @click="onClick">
-      {{ videoLaunched ? '⬛ Stopper la vidéo' : '▶️ Lancer la vidéo' }}
+      {{ videoLaunched ? t('recording.stopVideo') : t('recording.playVideo') }}
     </button>
 
     <button @click="toggleRecording" class="btn btn-secondary">
-      {{ isRecording ? '🔴 Arrêter' : '📹 Enregistrer' }}
+      {{ isRecording ? t('recording.stop') : t('recording.record') }}
     </button>
 
     <div
@@ -14,7 +14,7 @@
     >
       <div class="flex items-center gap-2 mb-2">
         <span>🔴</span>
-        <span>Enregistrement en cours...</span>
+        <span>{{ t('recording.inProgress') }}</span>
         <span style="margin-left: auto">{{ recordingProgress.toFixed(0) }}%</span>
       </div>
       <div class="w-full h-1 bg-white/30 rounded overflow-hidden">
@@ -24,16 +24,19 @@
         ></div>
       </div>
       <div class="mt-2 text-xs opacity-80">
-        {{ Math.ceil(recordingDuration * (1 - recordingProgress / 100)).toFixed(0) }}s restantes
+        {{ t('recording.remaining', { seconds: Math.ceil(recordingDuration * (1 - recordingProgress / 100)).toFixed(0) }) }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { globalSettings } from '@/states/global-settings-state.js'
 import { cropSettings } from '@/states/crop-settings-state.js'
+
+const { t } = useI18n()
 
 const videoLaunched = ref(false)
 const isRecording = ref(false)
@@ -100,7 +103,7 @@ async function getVideoDuration() {
         { once: true },
       )
     } else {
-      resolve(10) // durée par défaut si pas de vidéo
+      resolve(10) // default duration if no video
     }
   })
 }
@@ -109,38 +112,38 @@ async function startRecording() {
   if (!globalSettings.renderer || !globalSettings.container.value || isRecording.value) return
 
   try {
-    // Obtenir la durée de la vidéo source
+    // Get source video duration
     recordingDuration = await getVideoDuration()
 
-    // Créer un stream selon les paramètres de crop
+    // Create stream based on crop settings
     let streamCanvas
     let streamContext
 
     if (cropSettings.enabled) {
-      // Créer un canvas intermédiaire pour le crop
+      // Create intermediate canvas for crop
       streamCanvas = document.createElement('canvas')
       streamCanvas.width = cropSettings.width
       streamCanvas.height = cropSettings.height
       streamContext = streamCanvas.getContext('2d')
 
-      // Créer le stream à partir du canvas cropé
+      // Create stream from cropped canvas
       recordingStream = streamCanvas.captureStream(30)
 
-      // Fonction pour mettre à jour le canvas cropé
+      // Function to update cropped canvas
       const updateCroppedCanvas = () => {
         if (!isRecording.value) return
 
         try {
-          // Convertir les coordonnées du container vers les coordonnées du canvas
+          // Convert container coordinates to canvas coordinates
           const containerRect = globalSettings.container.value.getBoundingClientRect()
           const canvasWidth = globalSettings.renderer.domElement.width
           const canvasHeight = globalSettings.renderer.domElement.height
 
-          // Calculer les facteurs d'échelle
+          // Calculate scale factors
           const scaleX = canvasWidth / containerRect.width
           const scaleY = canvasHeight / containerRect.height
 
-          // Convertir les coordonnées et dimensions
+          // Convert coordinates and dimensions
           const sourceX = Math.max(
             0,
             Math.min(Math.round(cropSettings.x * scaleX), canvasWidth - 1),
@@ -158,10 +161,10 @@ async function startRecording() {
             Math.min(Math.round(cropSettings.height * scaleY), canvasHeight - sourceY),
           )
 
-          // Effacer le canvas avant de dessiner
+          // Clear canvas before drawing
           streamContext.clearRect(0, 0, streamCanvas.width, streamCanvas.height)
 
-          // Copier la portion croppée du canvas WebGL vers le canvas de stream
+          // Copy cropped portion from WebGL canvas to stream canvas
           streamContext.drawImage(
             globalSettings.renderer.domElement,
             sourceX,
@@ -174,28 +177,28 @@ async function startRecording() {
             cropSettings.height, // destination
           )
         } catch (error) {
-          console.warn('Erreur lors du crop:', error)
+          console.warn('Error during crop:', error)
         }
 
         requestAnimationFrame(updateCroppedCanvas)
       }
 
-      // Démarrer la copie continue avec un délai pour s'assurer que le canvas est prêt
+      // Start continuous copy with delay to ensure canvas is ready
       setTimeout(() => {
         updateCroppedCanvas()
       }, 100)
     } else {
-      // Enregistrement normal sans crop
+      // Normal recording without crop
       recordingStream = globalSettings.renderer.domElement.captureStream(30)
     }
 
-    // Configurer MediaRecorder
+    // Configure MediaRecorder
     const options = {
       mimeType: 'video/webm; codecs=vp9',
-      videoBitsPerSecond: 5000000, // 5 Mbps pour une bonne qualité
+      videoBitsPerSecond: 5000000, // 5 Mbps for good quality
     }
 
-    // Fallback pour différents navigateurs
+    // Fallback for different browsers
     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
       options.mimeType = 'video/webm; codecs=vp8'
       if (!MediaRecorder.isTypeSupported(options.mimeType)) {
@@ -216,12 +219,12 @@ async function startRecording() {
       const blob = new Blob(recordedChunks, { type: 'video/webm' })
       const url = URL.createObjectURL(blob)
 
-      // Nom du fichier avec dimensions si crop activé
+      // Filename with dimensions if crop enabled
       const filename = cropSettings.enabled
         ? `mockup-3d-recording-${cropSettings.width}x${cropSettings.height}-${Date.now()}.webm`
         : `mockup-3d-recording-${Date.now()}.webm`
 
-      // Créer un lien de téléchargement
+      // Create download link
       const a = document.createElement('a')
       a.href = url
       a.download = filename
@@ -229,32 +232,32 @@ async function startRecording() {
       a.click()
       document.body.removeChild(a)
 
-      // Nettoyer
+      // Cleanup
       URL.revokeObjectURL(url)
       isRecording.value = false
       recordingProgress.value = 0
     }
 
-    // Démarrer l'enregistrement
+    // Start recording
     isRecording.value = true
     recordingStartTime = performance.now()
-    mediaRecorder.start(100) // Collecter les données toutes les 100ms
+    mediaRecorder.start(100) // Collect data every 100ms
 
-    // Redémarrer la vidéo source depuis le début pour synchroniser
+    // Restart source video from beginning to synchronize
     if (globalSettings.videoEl) {
       globalSettings.videoEl.currentTime = 0
       await globalSettings.videoEl.play()
     }
 
-    // Arrêter automatiquement après la durée de la vidéo
+    // Automatically stop after video duration
     setTimeout(() => {
       stopRecording()
     }, recordingDuration * 1000)
 
-    // Mettre à jour le progrès
+    // Update progress
     updateRecordingProgress()
   } catch (error) {
-    console.error("Erreur lors du démarrage de l'enregistrement:", error)
+    console.error("Error starting recording:", error)
     isRecording.value = false
   }
 }

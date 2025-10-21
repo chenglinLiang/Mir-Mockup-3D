@@ -2,7 +2,7 @@
   <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
       <section>
-        <AppCheckbox v-model="imgBackground" label="Image de fond" />
+        <AppCheckbox v-model="imgBackground" :label="t('background.imageBackground')" />
         <div v-if="imgBackground" class="flex flex-col gap-1 mt-5">
           <label class="input">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -20,7 +20,7 @@
             <input
               type="text"
               class="grow"
-              placeholder="image"
+              :placeholder="t('background.imagePlaceholder')"
               :value="currentFileSelected"
               @click="onClickFileInput"
             />
@@ -38,10 +38,10 @@
       <div class="divider"></div>
 
       <section>
-        <AppCheckbox v-model="colorBackground" label="Couleur de fond" />
+        <AppCheckbox v-model="colorBackground" :label="t('background.colorBackground')" />
         <div v-if="colorBackground" class="flex flex-col gap-1 mt-5">
           <div class="grid grid-cols-[50px_1fr_50px] gap-2 items-center mb-2">
-            <label style="font-size: 0.8rem">Couleur:</label>
+            <label style="font-size: 0.8rem">{{ t('background.color') }}</label>
             <input
               v-model="backgroundColor1Proxy"
               type="color"
@@ -50,7 +50,7 @@
             <span></span>
           </div>
           <div class="grid grid-cols-[50px_1fr_50px] gap-2 items-center mb-2">
-            <label style="font-size: 0.8rem">Couleur:</label>
+            <label style="font-size: 0.8rem">{{ t('background.color') }}</label>
             <input
               v-model="backgroundColor2Proxy"
               type="color"
@@ -70,7 +70,7 @@
             min="0.1"
             max="3"
             step="0.1"
-            label="Exposition:"
+            :label="t('background.exposure')"
             :optional="backgroundSettings.exposureCompensation.toFixed(1)"
           />
           <AppSlider
@@ -79,7 +79,7 @@
             min="0.1"
             max="2"
             step="0.1"
-            label="Luminosité (apporte un vrai plus au rendu):"
+            :label="t('background.brightness')"
             :optional="backgroundSettings.backgroundBrightness.toFixed(1)"
           />
         </div>
@@ -93,7 +93,10 @@ import { backgroundSettings } from '@/states/background-settings-state.js'
 import AppSlider from '@/components/AppSlider.vue'
 import AppCheckbox from '@/components/AppCheckbox.vue'
 import { computed, ref, useTemplateRef, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { hexToHSL, hslToHex } from '@/helpers/colors-helper.js'
+
+const { t } = useI18n()
 
 const imgBackground = ref(false)
 const colorBackground = ref(true)

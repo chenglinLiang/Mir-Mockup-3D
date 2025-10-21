@@ -1,20 +1,14 @@
 <template>
   <aside class="card bg-base-100 shadow-sm">
     <div class="p-5 flex flex-col gap-3">
-      <h3 class="text-2xl font-bold mb-5">Source</h3>
+      <h3 class="text-2xl font-bold mb-5">{{ t('media.title') }}</h3>
       <div class="mb-3 text-sm space-y-3">
-        <p>
-          Par défaut, une vidéo de démo est sélectionnée, c'est une vidéo qui concerne mon autre
-          app.
-        </p>
+        <p>{{ t('media.intro') }}</p>
         <a class="font-bold flex items-center gap-2" href="https://habits-hero.fr/">
           <img src="/habits-hero-icon.png" class="size-6 rounded" alt="Habits Hero Logo" />
-          Habits Hero</a
+          {{ t('media.habitsHero') }}</a
         >
-        <p>
-          J'avais besoin de faire une vidéo TikTok avec une belle présentation. C'est pour cela que
-          ce projet a vu le jour.
-        </p>
+        <p>{{ t('media.story') }}</p>
       </div>
       <label class="input">
         <svg
@@ -35,7 +29,7 @@
         <input
           type="text"
           class="grow"
-          placeholder="Vidéo"
+          :placeholder="t('media.videoPlaceholder')"
           :value="currentFileSelected"
           @click="onClickFileInput"
         />
@@ -47,14 +41,17 @@
           @change="onVideoSelected"
         />
       </label>
-      <small>Format recommendé: 1080x2400</small>
+      <small>{{ t('media.recommendedFormat') }}</small>
     </div>
   </aside>
 </template>
 
 <script setup>
 import { ref, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { mediaSettings } from '@/states/media-settings-state.js'
+
+const { t } = useI18n()
 
 const fileInput = useTemplateRef('fileInput')
 const currentFileSelected = ref('')

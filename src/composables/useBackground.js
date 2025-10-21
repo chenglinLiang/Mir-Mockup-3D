@@ -32,22 +32,22 @@ export const useBackground = () => {
         globalSettings.scene.background = texture
       })
     } else {
-      // Recréer le dégradé avec la luminosité ajustée
+      // Recreate gradient with adjusted brightness
       const canvas = document.createElement('canvas')
       canvas.width = 1024
       canvas.height = 1024
       const context = canvas.getContext('2d')
 
-      // Créer le dégradé linéaire (du haut vers le bas)
+      // Create linear gradient (top to bottom)
       const gradient = context.createLinearGradient(0, 0, 0, canvas.height)
 
-      // Appliquer la luminosité aux couleurs du dégradé
+      // Apply brightness to gradient colors
       const brightness = backgroundSettings.backgroundBrightness
 
       const topString = backgroundSettings.color1
       const bottomString = backgroundSettings.color2
 
-      // Extraire les valeurs HSL des chaînes de caractères
+      // Extract HSL values from strings
       const topMatch = topString.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
       const bottomMatch = bottomString.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
 
@@ -64,18 +64,18 @@ export const useBackground = () => {
       const bottomS = parseInt(bottomMatch[2])
       const bottomL = Math.min(100, parseInt(bottomMatch[3]) * brightness)
 
-      // Recréer les chaînes de caractères HSL avec la luminosité ajustée
+      // Recreate HSL strings with adjusted brightness
       const adjustedTopColor = `hsl(${topH}, ${topS}%, ${topL}%)`
       const adjustedBottomColor = `hsl(${bottomH}, ${bottomS}%, ${bottomL}%)`
 
       gradient.addColorStop(0, adjustedTopColor)
       gradient.addColorStop(1, adjustedBottomColor)
 
-      // Remplir le canvas avec le dégradé
+      // Fill canvas with gradient
       context.fillStyle = gradient
       context.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Créer une texture à partir du canvas
+      // Create texture from canvas
       const gradientTexture = new THREE.CanvasTexture(canvas)
       globalSettings.scene.background = gradientTexture
     }
