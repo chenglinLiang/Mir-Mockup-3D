@@ -48,8 +48,8 @@
       <div class="absolute bottom-3 right-3 z-40">
         <div class="flex flex-col gap-3">
           <TheAboutDialog />
-          <LanguageSwitcher />
-          <ThemeSwitcher />
+          <TheLanguageSwitcher />
+          <TheThemeSwitcher />
         </div>
       </div>
     </div>
@@ -82,11 +82,11 @@ import { useTheme } from '@/composables/useTheme.js'
 import TheBackgroundSettingsPanel from '@/components/TheBackgroundSettingsPanel.vue'
 import TheMenu from '@/components/TheMenu.vue'
 import WelcomeDialog from '@/components/WelcomeDialog.vue'
-import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
+import TheThemeSwitcher from '@/components/TheThemeSwitcher.vue'
 import TheMediaSettingsPanel from '@/components/TheMediaSettingsPanel.vue'
 import { useMedia } from '@/composables/useMedia.js'
 import LoadingDialog from '@/components/LoadingDialog.vue'
-import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import TheLanguageSwitcher from '@/components/TheLanguageSwitcher.vue'
 import TheAboutDialog from '@/components/TheAboutDialog.vue'
 
 const { init: initLightingAmbient } = useLightingAmbient()
