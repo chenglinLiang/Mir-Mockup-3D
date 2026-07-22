@@ -226,8 +226,15 @@ async function init() {
 
   initSource()
 
-  // Phone scale/position
-  phone.scale.set(0.9, 0.9, 0.9)
+  // Phone scale: normalize to match the original iphone.glb world height (~11.98 units = 13.312 * 0.9),
+  // so the camera, controls, and lighting all work without re-tuning. The new iphone17-black.glb was
+  // exported in meters (~0.150 tall), so it needs to be scaled up dramatically.
+  const phoneBox = new THREE.Box3().setFromObject(phone)
+  const phoneSize = new THREE.Vector3()
+  phoneBox.getSize(phoneSize)
+  const TARGET_PHONE_HEIGHT = 11.98
+  const phoneScale = phoneSize.y > 0 ? TARGET_PHONE_HEIGHT / phoneSize.y : 0.9
+  phone.scale.setScalar(phoneScale)
   globalSettings.scene.add(phone)
 
   // Pause/Resume based on visibility

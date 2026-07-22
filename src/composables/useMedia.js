@@ -35,9 +35,18 @@ export const useMedia = () => {
     globalSettings.videoEl = v
     videoTex = tex
 
-    const screen = globalSettings.phone.getObjectByName('Screen')
+    // Look up the screen mesh. Original iphone.glb uses "Screen"; iphone17-black.glb uses "17-Screen".
+    const screen =
+      globalSettings.phone.getObjectByName('17-Screen') ||
+      globalSettings.phone.getObjectByName('Screen')
 
     if (screen) {
+      // The 17-Screen mesh's UV map is vertically flipped relative to the original Screen mesh,
+      // so flip the texture sampling to keep the video upright.
+      if (screen.name === '17-Screen') {
+        videoTex.repeat.set(1, -1)
+        videoTex.offset.set(0, 1)
+      }
       const screenMat = new THREE.MeshPhysicalMaterial({
         color: 0x000000,
         emissive: 0xffffff,
