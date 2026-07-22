@@ -47,6 +47,18 @@ export const useMedia = () => {
         videoTex.repeat.set(1, -1)
         videoTex.offset.set(0, 1)
       }
+
+      if (screen.name === '17-Screen') {
+        // iPhone 17 model: hide front-side overlays whose PBR materials bleed onto the video.
+        // 17-ScreenEdge001 has identical geometry to 17-Screen (a duplicate overlay), and
+        // 17-GlassRough is a full-front glass layer sitting on top of the screen. The
+        // original iphone.glb has neither, so removing them restores the clean video look.
+        const overlayNames = new Set(['17-ScreenEdge001', '17-GlassRough'])
+        globalSettings.phone.traverse((obj) => {
+          if (obj.name && overlayNames.has(obj.name)) obj.visible = false
+        })
+      }
+
       const screenMat = new THREE.MeshPhysicalMaterial({
         color: 0x000000,
         emissive: 0xffffff,
