@@ -208,8 +208,8 @@ async function init() {
   // Initial light configuration
   initializeLights()
 
-  // iPhone model (GLB)
-  const gltf = await new GLTFLoader().loadAsync('/models/iphone.glb')
+  // iPhone 17 model (GLB)
+  const gltf = await new GLTFLoader().loadAsync('/models/iphone17-black.glb')
   const phone = gltf.scene
   phone.traverse((obj) => {
     const m = obj
